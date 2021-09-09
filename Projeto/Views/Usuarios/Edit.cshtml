@@ -1,0 +1,97 @@
+﻿@model TesteITBIT.Models.Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuário";
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UsuarioId" />
+            <div class="row">
+                <div class="form-group col-md-8">
+                    <label asp-for="Nome" class="control-label"></label>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="DataNascimento" class="control-label"></label>
+                    <input asp-for="DataNascimento" class="form-control" />
+                    <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SexoId" class="control-label"></label>
+                <select asp-for="SexoId" class="form-control" asp-items="ViewBag.SexoId">
+                    <option value="">Selecione o sexo</option>
+                </select>
+                <span asp-validation-for="SexoId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Senha" class="control-label"></label>
+                <input asp-for="Senha" class="form-control" />
+                <span asp-validation-for="Senha" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Alterar" class="btn btn-primary" />
+                <input data-target="#modalExcluir" type="button" data-toggle="modal" class="btn btn-outline-danger" value="Excluir" />
+
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar para a lista</a>
+</div>
+
+<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header" style="display: block !important; border: none;">
+                <div class="swal2-icon swal2-question swal2-icon-show" style="display: flex;"><div class="swal2-icon-content">?</div></div>
+            </div>
+
+            <div class="modal-body">
+                <h2 class="swal2-title" id="swal2-title" style="display: block;">Você tem certeza que deseja excluir?</h2>
+            </div>
+
+            <div class="modal-footer" style="border: none; margin: auto; ">
+
+
+                <form asp-action="Delete" asp-route-id="@Model.UsuarioId">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <input type="submit" value="Excluir" class="btn btn-outline-danger" />
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<TesteITBIT.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Usuários";
+
+    if (TempData["Success"] != null)
+    {
+        <div id="mensagem" hidden>  @TempData["Success"].ToString() </div>
+    }
+
+}
+
+<h1>Usuários</h1>
+
+<p>
+    <a asp-action="Create">Cadastrar usuário</a>
+</p>
+<form asp-action="Filtro">
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="control-label text-dark">Nome</label>
+            <input name="FiltroNome" class="form-control" placeholder="Preencha um nome para pesquisar" value="@ViewBag.FiltroNome"/>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label class="control-label">Ativo</label>
+            @Html.DropDownList("filtroAtivo", (IEnumerable<SelectListItem>)ViewBag.ListaAtivo, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group col-md-3" style=" margin-top: 31px;">
+            <input type="submit" value="Pesquisar" class="btn btn-primary" />
+
+        </div>
+    </div>
+
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataNascimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Ativo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sexo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataNascimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                @if (item.Ativo)
+                {
+                    <td>Sim</td>
+                }
+                else
+                {
+                    <td>Não</td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sexo.Descricao)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.UsuarioId">Editar</a> |
+                    <a href="#UsuarioId@{@item.UsuarioId}" data-toggle="modal">Excluir</a>
+
+                    <div class="modal fade" id="UsuarioId@{@item.UsuarioId}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+
+                                <div class="modal-header" style="display: block !important; border: none;">
+                                    <div class="swal2-icon swal2-question swal2-icon-show" style="display: flex;"><div class="swal2-icon-content">?</div></div>
+                                </div>
+
+                                <div class="modal-body">
+                                    <h2 class="swal2-title" id="swal2-title" style="display: block;">Você tem certeza que deseja excluir?</h2>
+                                </div>
+
+                                <div class="modal-footer" style="border: none; margin: auto; ">
+
+
+                                    <form asp-action="Delete" asp-route-id="@item.UsuarioId">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <input type="submit" value="Excluir" class="btn btn-outline-danger" />
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+
+
+
+        }
+    </tbody>
+</table>
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            mensagemSucesso();
+        });
+
+        function mensagemSucesso() {
+
+            var msg = $("#mensagem").text();
+            if (msg) {
+                Swal.fire({
+                    icon: 'success',
+                    html: msg,
+                });
+            }
+        };
+
+    </script>
+}
